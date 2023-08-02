@@ -13,21 +13,9 @@ DOCKER_BUILDKIT=1 docker build \
     -t streamstorage/gstreamer:${UBUNTU_VERSION}-${GSTREAMER_CHECKOUT}-prod \
     --build-arg GSTREAMER_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gstreamer.git \
     --build-arg GSTREAMER_CHECKOUT=${GSTREAMER_CHECKOUT} \
-    --build-arg GST_PLUGINS_BASE_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gst-plugins-base.git \
-    --build-arg GST_PLUGINS_BASE_CHECKOUT=${GSTREAMER_CHECKOUT} \
-    --build-arg GST_PLUGINS_BAD_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad.git \
-    --build-arg GST_PLUGINS_BAD_CHECKOUT=${GSTREAMER_CHECKOUT} \
-    --build-arg GST_PLUGINS_GOOD_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gst-plugins-good.git \
-    --build-arg GST_PLUGINS_GOOD_CHECKOUT=${GSTREAMER_CHECKOUT} \
-    --build-arg GST_PLUGINS_UGLY_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gst-plugins-ugly.git \
-    --build-arg GST_PLUGINS_UGLY_CHECKOUT=${GSTREAMER_CHECKOUT} \
-    --build-arg GST_LIBAV_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gst-libav.git \
-    --build-arg GST_LIBAV_CHECKOUT=${GSTREAMER_CHECKOUT} \
-    --build-arg GST_RTSP_SERVER_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gst-rtsp-server.git \
-    --build-arg GST_RTSP_SERVER_CHECKOUT=${GSTREAMER_CHECKOUT} \
-    --build-arg GSTREAMER_VAAPI_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gstreamer-vaapi.git \
-    --build-arg GSTREAMER_VAAPI_CHECKOUT==${GSTREAMER_CHECKOUT} \
     --build-arg BASE_IMAGE=${BASE_IMAGE} \
+    --build-arg HTTP_PROXY="http://172.17.0.1:19000" \
+    --build-arg HTTPS_PROXY="http://172.17.0.1:19000" \
     --target prod \
     -f Dockerfile \
     ${ROOT_DIR}

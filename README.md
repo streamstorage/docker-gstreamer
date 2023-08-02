@@ -32,9 +32,9 @@ GStreamer: 1.22.5
 # References
 
 - https://github.com/restreamio/docker-gstreamer
+- https://github.com/ducksouplab/docker-gstreamer
 - https://www.linuxfromscratch.org/blfs/view/svn/multimedia/gstreamer10.html
 - https://gstreamer.freedesktop.org/download/
-- https://github.com/ducksouplab/docker-gstreamer
 
 # License
 
