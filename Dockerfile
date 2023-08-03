@@ -45,7 +45,7 @@ RUN ["/compile"]
 
 FROM dev-dependencies as dev
 COPY --from=dev-with-source /compiled-binaries /
-
+ENV GST_PLUGIN_SCANNER=/usr/libexec/gstreamer-1.0/gst-plugin-scanner
 
 # Compile binaries without debug symbols
 FROM dev-source-code as prod-compile
@@ -61,5 +61,4 @@ RUN ["/install-prod-dependencies"]
 
 FROM prod-base as prod
 COPY --from=prod-compile /compiled-binaries /
-
 ENV GST_PLUGIN_SCANNER=/usr/libexec/gstreamer-1.0/gst-plugin-scanner
