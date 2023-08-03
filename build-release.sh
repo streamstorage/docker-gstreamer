@@ -14,8 +14,6 @@ DOCKER_BUILDKIT=1 docker build \
     --build-arg GSTREAMER_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gstreamer.git \
     --build-arg GSTREAMER_CHECKOUT=${GSTREAMER_CHECKOUT} \
     --build-arg BASE_IMAGE=${BASE_IMAGE} \
-    --build-arg HTTP_PROXY="http://172.17.0.1:19000" \
-    --build-arg HTTPS_PROXY="http://172.17.0.1:19000" \
     --target prod \
     -f Dockerfile \
     ${ROOT_DIR}
