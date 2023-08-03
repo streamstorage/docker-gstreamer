@@ -30,7 +30,7 @@ There are 2 kinds of images that are built.
 ## Build
 
 ```bash
-./build-release.sh
+BUILD_PROD=1 ./build-release.sh
 ```
 
 # References
