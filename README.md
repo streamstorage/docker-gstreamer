@@ -39,6 +39,7 @@ BUILD_PROD=1 ./build-release.sh
 - https://github.com/ducksouplab/docker-gstreamer
 - https://www.linuxfromscratch.org/blfs/view/svn/multimedia/gstreamer10.html
 - https://gstreamer.freedesktop.org/download/
+- https://gstreamer.freedesktop.org/documentation/installing/building-from-source-using-meson.html?gi-language=c
 
 # License
 
