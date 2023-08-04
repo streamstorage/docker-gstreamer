@@ -5,11 +5,9 @@ apt-get update
 apt-get dist-upgrade -y
 
 apt-get install -y --no-install-recommends \
-    gir1.2-gtk-4.0 \
-    libegl1 \
-    libgdk-pixbuf-2.0-0 \
+    gir1.2-glib-2.0 \
+    libgirepository-1.0-1 \
     libgl1 \
-    libgtk-4-1 \
     libpciaccess0 \
     libpython3.10 \
     libssl3 \

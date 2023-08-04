@@ -12,14 +12,14 @@ apt-get install -y --no-install-recommends \
     flex \
     g++ \
     git \
-    libgdk-pixbuf-2.0-dev \
+    libgirepository1.0-dev \
     libgl-dev \
-    libgtk-4-dev \
     libpciaccess-dev \
     libpython3.10-dev \
     libsodium-dev \
     libssl-dev \
     libx11-xcb-dev \
+    make \
     nasm \
     pkg-config \
     python3-pip \
