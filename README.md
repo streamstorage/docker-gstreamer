@@ -1,4 +1,4 @@
-# Ubuntu-based Docker image for GStreamer
+# docker-gstreamer
 
 Ubuntu-based container images with upstream GStreamer and plugins pre-installed
 
@@ -27,7 +27,7 @@ There are 2 kinds of images that are built.
 - streamstorage/gstreamer:22.04-1.22.5-dev - includes unoptimized build with debug symbols
 - streamstorage/gstreamer:22.04-1.22.5-prod - optimized (-O3 and LTO) build without debug symbols for production purposes
 
-## Build
+# Build
 
 ```bash
 BUILD_PROD=1 ./build-release.sh
