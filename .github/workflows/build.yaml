@@ -1,0 +1,27 @@
+name: Build and push docker image
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  name: Build and push docker image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Build images
+      run: |
+        BUILD_DEV=1 ./build-release.sh
+        BUILD_DEV_WITH_SOURCE=1 ./build-release.sh
+        BUILD_PROD=1 ./build-release.sh
+        BUILD_PROD_DBG=1 ./build-release.sh
+
+    - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+
+    - name: Push images
+      run: |
+        docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+        docker push $IMAGE_ID:$VERSION
