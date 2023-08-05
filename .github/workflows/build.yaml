@@ -56,7 +56,7 @@ jobs:
           php-zmq snmp pollinate libpq-dev postgresql-client powershell ruby-full \
           sphinxsearch subversion mongodb-org -yq >/dev/null 2>&1 || true
         sudo apt-get autoremove -y >/dev/null 2>&1 || true
-        sudo apt-get autoclean -y >/dev/null 2>&1 || truename: Maximize build space
+        sudo apt-get autoclean -y >/dev/null 2>&1 || true
 
     - name: Checkout
       uses: actions/checkout@v2
@@ -67,15 +67,18 @@ jobs:
         VERSION=$(echo "${{ github.ref_name }}" | sed -e 's/^v//')
         UBUNTU_VERSION=$(echo $VERSION | cut -f1 -d-)
         GSTREAMER_CHECKOUT=$(echo $VERSION | cut -f2 -d-)
-        echo "::set-env name=VERSION::$VERSION"
-        echo "::set-env name=UBUNTU_VERSION::$UBUNTU_VERSION"
-        echo "::set-env name=GSTREAMER_CHECKOUT::$GSTREAMER_CHECKOUT"
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        echo "UBUNTU_VERSION=$UBUNTU_VERSION" >> $GITHUB_ENV
+        echo "GSTREAMER_CHECKOUT=$GSTREAMER_CHECKOUT" >> $GITHUB_ENV
 
     - name: Build images
       run: |
         echo "UBUNTU_VERSION=$UBUNTU_VERSION"
         echo "GSTREAMER_CHECKOUT=$GSTREAMER_CHECKOUT"
         BUILD_DEV=1 ./build-release.sh
+      env:
+        UBUNTU_VERSION: ${{ env.UBUNTU_VERSION }}
+        GSTREAMER_CHECKOUT: ${{ env.GSTREAMER_CHECKOUT }}
 
     - name: Log in to registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
@@ -86,3 +89,5 @@ jobs:
         
         docker tag streamstorage/gstreamer:$VERSION-dev $IMAGE_ID:$VERSION-dev
         docker push $IMAGE_ID:$VERSION-dev
+      env:
+        VERSION: ${{ env.VERSION }}
