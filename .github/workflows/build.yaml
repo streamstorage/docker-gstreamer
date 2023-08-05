@@ -64,9 +64,12 @@ jobs:
     - name: Set envs
       run: |
         df -h
-        echo "VERSION=$(echo '${{ github.ref_name }}' | sed -e 's/^v//')" >> $GITHUB_ENV
-        echo "UBUNTU_VERSION=$(echo $VERSION | cut -f1 -d-)" >> $GITHUB_ENV
-        echo "GSTREAMER_CHECKOUT=$(echo $VERSION | cut -f2 -d-)" >> $GITHUB_ENV
+        VERSION=$(echo "${{ github.ref_name }}" | sed -e 's/^v//')
+        UBUNTU_VERSION=$(echo $VERSION | cut -f1 -d-)
+        GSTREAMER_CHECKOUT=$(echo $VERSION | cut -f2 -d-)
+        echo "::set-env name=VERSION::$VERSION"
+        echo "::set-env name=UBUNTU_VERSION::$UBUNTU_VERSION"
+        echo "::set-env name=GSTREAMER_CHECKOUT::$GSTREAMER_CHECKOUT"
 
     - name: Build images
       run: |
