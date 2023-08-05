@@ -20,6 +20,8 @@ Ubuntu: 22.04
 
 GStreamer: 1.22.5
 
+It's available here: https://github.com/orgs/streamstorage/packages/container/package/gstreamer
+
 # Image Types
 
 There are 2 kinds of images that are built.

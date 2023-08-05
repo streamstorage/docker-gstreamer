@@ -76,6 +76,9 @@ jobs:
         echo "UBUNTU_VERSION=$UBUNTU_VERSION"
         echo "GSTREAMER_CHECKOUT=$GSTREAMER_CHECKOUT"
         BUILD_DEV=1 ./build-release.sh
+        BUILD_DEV_WITH_SOURCE=1 ./build-release.sh
+        BUILD_PROD=1 ./build-release.sh
+        BUILD_PROD_DBG=1 ./build-release.sh
       env:
         UBUNTU_VERSION: ${{ env.UBUNTU_VERSION }}
         GSTREAMER_CHECKOUT: ${{ env.GSTREAMER_CHECKOUT }}
@@ -89,5 +92,11 @@ jobs:
         
         docker tag streamstorage/gstreamer:$VERSION-dev $IMAGE_ID:$VERSION-dev
         docker push $IMAGE_ID:$VERSION-dev
+        docker tag streamstorage/gstreamer:$VERSION-dev-with-source $IMAGE_ID:$VERSION-dev-with-source
+        docker push $IMAGE_ID:$VERSION-dev-with-source
+        docker tag streamstorage/gstreamer:$VERSION-prod $IMAGE_ID:$VERSION-prod
+        docker push $IMAGE_ID:$VERSION-prod
+        docker tag streamstorage/gstreamer:$VERSION-prod-dbg $IMAGE_ID:$VERSION-prod-dbg
+        docker push $IMAGE_ID:$VERSION-prod-dbg
       env:
         VERSION: ${{ env.VERSION }}
