@@ -13,11 +13,23 @@ jobs:
       packages: write
 
     steps:
+    - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 51200
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          remove-codeql: 'true'
+          remove-docker-images: 'true'
+
     - name: Checkout
       uses: actions/checkout@v2
 
     - name: Set envs
       run: |
+        df -h
         echo "VERSION=$(echo '${{ github.ref_name }}' | sed -e 's/^v//')" >> $GITHUB_ENV
         echo "UBUNTU_VERSION=$(echo $VERSION | cut -f1 -d-)" >> $GITHUB_ENV
         echo "GSTREAMER_CHECKOUT=$(echo $VERSION | cut -f2 -d-)" >> $GITHUB_ENV
