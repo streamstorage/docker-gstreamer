@@ -36,7 +36,7 @@ RUN ["/download"]
 COPY docker/build-gstreamer/compile /
 
 
-# Compile binaries with debug symbols
+# Compile unoptimized binaries with debug symbols
 FROM dev-source-code as dev-with-source
 ENV DEBUG=true
 ENV OPTIMIZATIONS=false
@@ -47,18 +47,31 @@ FROM dev-dependencies as dev
 COPY --from=dev-with-source /compiled-binaries /
 ENV GST_PLUGIN_SCANNER=/usr/libexec/gstreamer-1.0/gst-plugin-scanner
 
-# Compile binaries without debug symbols
-FROM dev-source-code as prod-compile
-ENV DEBUG=false
-ENV OPTIMIZATIONS=true
-RUN ["/compile"]
-
 
 FROM "${BASE_IMAGE}" as prod-base
 COPY docker/build-gstreamer/install-prod-dependencies /
 RUN ["/install-prod-dependencies"]
 
 
+# Compile optimized binaries without debug symbols
+FROM dev-source-code as prod-compile
+ENV DEBUG=false
+ENV OPTIMIZATIONS=true
+RUN ["/compile"]
+
+
 FROM prod-base as prod
 COPY --from=prod-compile /compiled-binaries /
+ENV GST_PLUGIN_SCANNER=/usr/libexec/gstreamer-1.0/gst-plugin-scanner
+
+
+# Compile optimized binaries with debug symbols
+FROM dev-source-code as prod-compile-dbg
+ENV DEBUG=true
+ENV OPTIMIZATIONS=true
+RUN ["/compile"]
+
+
+FROM prod-base as prod-dbg
+COPY --from=prod-compile-dbg /compiled-binaries /
 ENV GST_PLUGIN_SCANNER=/usr/libexec/gstreamer-1.0/gst-plugin-scanner

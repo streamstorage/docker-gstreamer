@@ -25,12 +25,17 @@ GStreamer: 1.22.5
 There are 2 kinds of images that are built.
 
 - streamstorage/gstreamer:22.04-1.22.5-dev - includes unoptimized build with debug symbols
+- streamstorage/gstreamer:22.04-1.22.5-dev-with-source - includes unoptimized build with debug symbols and source code it was built with
 - streamstorage/gstreamer:22.04-1.22.5-prod - optimized (-O3 and LTO) build without debug symbols for production purposes
+- streamstorage/gstreamer:22.04-1.22.5-prod-dbg - optimized (-O2 only) build with debug symbols included for production purposes with better debugging experience
 
 # Build
 
 ```bash
+BUILD_DEV=1 ./build-release.sh
+BUILD_DEV_WITH_SOURCE=1 ./build-release.sh
 BUILD_PROD=1 ./build-release.sh
+BUILD_PROD_DBG=1 ./build-release.sh
 ```
 
 # References
@@ -38,7 +43,6 @@ BUILD_PROD=1 ./build-release.sh
 - https://github.com/restreamio/docker-gstreamer
 - https://github.com/ducksouplab/docker-gstreamer
 - https://www.linuxfromscratch.org/blfs/view/svn/multimedia/gstreamer10.html
-- https://gstreamer.freedesktop.org/download/
 - https://gstreamer.freedesktop.org/documentation/installing/building-from-source-using-meson.html?gi-language=c
 
 # License
