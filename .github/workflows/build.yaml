@@ -30,7 +30,7 @@ jobs:
         BUILD_PROD_DBG=1 ./build-release.sh
 
     - name: Log in to registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
 
     - name: Push images
       run: |
