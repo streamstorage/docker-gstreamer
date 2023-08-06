@@ -1,4 +1,4 @@
-name: Build and publish docker image
+name: Build and publish gstreamer image
 on:
   push:
     tags:
@@ -70,33 +70,34 @@ jobs:
         echo "VERSION=$VERSION" >> $GITHUB_ENV
         echo "UBUNTU_VERSION=$UBUNTU_VERSION" >> $GITHUB_ENV
         echo "GSTREAMER_CHECKOUT=$GSTREAMER_CHECKOUT" >> $GITHUB_ENV
-
-    - name: Build images
-      run: |
-        echo "UBUNTU_VERSION=$UBUNTU_VERSION"
-        echo "GSTREAMER_CHECKOUT=$GSTREAMER_CHECKOUT"
-        BUILD_DEV=1 ./build-release.sh
-        BUILD_DEV_WITH_SOURCE=1 ./build-release.sh
-        BUILD_PROD=1 ./build-release.sh
-        BUILD_PROD_DBG=1 ./build-release.sh
-      env:
-        UBUNTU_VERSION: ${{ env.UBUNTU_VERSION }}
-        GSTREAMER_CHECKOUT: ${{ env.GSTREAMER_CHECKOUT }}
-
+    
     - name: Log in to registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
 
-    - name: Push images
+    - name: Build and publish images
       run: |
+        echo "GSTREAMER_CHECKOUT=$GSTREAMER_CHECKOUT"
+        echo "UBUNTU_VERSION=$UBUNTU_VERSION"
+        echo "VERSION=$VERSION"
         IMAGE_ID=ghcr.io/${{ github.repository_owner }}/gstreamer
         
+        BUILD_DEV=1 ./build-release.sh
+        BUILD_DEV_WITH_SOURCE=1 ./build-release.sh
         docker tag streamstorage/gstreamer:$VERSION-dev $IMAGE_ID:$VERSION-dev
         docker push $IMAGE_ID:$VERSION-dev
         docker tag streamstorage/gstreamer:$VERSION-dev-with-source $IMAGE_ID:$VERSION-dev-with-source
         docker push $IMAGE_ID:$VERSION-dev-with-source
+
+        sudo docker system prune -af --volumes || true
+
+        BUILD_PROD=1 ./build-release.sh
         docker tag streamstorage/gstreamer:$VERSION-prod $IMAGE_ID:$VERSION-prod
         docker push $IMAGE_ID:$VERSION-prod
+
+        BUILD_PROD_DBG=1 ./build-release.sh
         docker tag streamstorage/gstreamer:$VERSION-prod-dbg $IMAGE_ID:$VERSION-prod-dbg
         docker push $IMAGE_ID:$VERSION-prod-dbg
       env:
+        GSTREAMER_CHECKOUT: ${{ env.GSTREAMER_CHECKOUT }}
+        UBUNTU_VERSION: ${{ env.UBUNTU_VERSION }}
         VERSION: ${{ env.VERSION }}
