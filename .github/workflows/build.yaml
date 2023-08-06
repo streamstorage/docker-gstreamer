@@ -84,51 +84,40 @@ jobs:
         GSTREAMER_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gstreamer.git
         IMAGE_ID=ghcr.io/${{ github.repository_owner }}/gstreamer
 
-        docker buildx build \
-          -t ${IMAGE_ID}:${VERSION}-dev \
+        docker buildx build -t ${IMAGE_ID}:${VERSION}-dev \
           --build-arg GSTREAMER_REPOSITORY=${GSTREAMER_REPOSITORY} \
           --build-arg GSTREAMER_CHECKOUT=${GSTREAMER_CHECKOUT} \
           --build-arg BASE_IMAGE=${BASE_IMAGE} \
           --target dev \
           --no-cache-filter dev, dev-with-source \
-          -f Dockerfile \
-          .
-        docker push ${IMAGE_ID}:${VERSION}-dev
+          -f Dockerfile . --push
         docker rmi ${IMAGE_ID}:${VERSION}-dev
 
-        docker buildx build \
-          -t ${IMAGE_ID}:${VERSION}-dev-with-source \
+        docker buildx build -t ${IMAGE_ID}:${VERSION}-dev-with-source \
           --build-arg GSTREAMER_REPOSITORY=${GSTREAMER_REPOSITORY} \
           --build-arg GSTREAMER_CHECKOUT=${GSTREAMER_CHECKOUT} \
           --build-arg BASE_IMAGE=${BASE_IMAGE} \
           --target dev-with-source \
           --no-cache-filter dev-with-source \
-          -f Dockerfile \
-          .
-        docker push ${IMAGE_ID}:${VERSION}-dev-with-source
+          -f Dockerfile . --push
         docker rmi ${IMAGE_ID}:${VERSION}-dev-with-source
         
-        docker buildx build \
-          -t ${IMAGE_ID}:${VERSION}-prod \
+        docker buildx build -t ${IMAGE_ID}:${VERSION}-prod \
           --build-arg GSTREAMER_REPOSITORY=${GSTREAMER_REPOSITORY} \
           --build-arg GSTREAMER_CHECKOUT=${GSTREAMER_CHECKOUT} \
           --build-arg BASE_IMAGE=${BASE_IMAGE} \
           --target prod \
           --no-cache-filter prod, prod-compile \
-          -f Dockerfile \
-          .
-        docker push ${IMAGE_ID}:${VERSION}-prod
+          -f Dockerfile . --push
         docker rmi ${IMAGE_ID}:${VERSION}-prod
 
-        docker buildx build \
-          -t ${IMAGE_ID}:${VERSION}-prod-dbg \
+        docker buildx build -t ${IMAGE_ID}:${VERSION}-prod-dbg \
           --build-arg GSTREAMER_REPOSITORY=${GSTREAMER_REPOSITORY} \
           --build-arg GSTREAMER_CHECKOUT=${GSTREAMER_CHECKOUT} \
           --build-arg BASE_IMAGE=${BASE_IMAGE} \
           --target prod-dbg \
           --no-cache-filter prod-dbg, prod-compile-dbg \
-          -f Dockerfile \
-          .
+          -f Dockerfile . --push
         docker push ${IMAGE_ID}:${VERSION}-prod-dbg
       env:
         GSTREAMER_CHECKOUT: ${{ env.GSTREAMER_CHECKOUT }}
