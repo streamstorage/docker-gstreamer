@@ -79,24 +79,57 @@ jobs:
         echo "GSTREAMER_CHECKOUT=$GSTREAMER_CHECKOUT"
         echo "UBUNTU_VERSION=$UBUNTU_VERSION"
         echo "VERSION=$VERSION"
+
+        BASE_IMAGE=ubuntu:${UBUNTU_VERSION}
+        GSTREAMER_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gstreamer.git
         IMAGE_ID=ghcr.io/${{ github.repository_owner }}/gstreamer
+
+        docker buildx build \
+          -t ${IMAGE_ID}:${VERSION}-dev \
+          --build-arg GSTREAMER_REPOSITORY=${GSTREAMER_REPOSITORY} \
+          --build-arg GSTREAMER_CHECKOUT=${GSTREAMER_CHECKOUT} \
+          --build-arg BASE_IMAGE=${BASE_IMAGE} \
+          --target dev \
+          --no-cache-filter dev, dev-with-source \
+          -f Dockerfile \
+          .
+        docker push ${IMAGE_ID}:${VERSION}-dev
+        docker rmi ${IMAGE_ID}:${VERSION}-dev
+
+        docker buildx build \
+          -t ${IMAGE_ID}:${VERSION}-dev-with-source \
+          --build-arg GSTREAMER_REPOSITORY=${GSTREAMER_REPOSITORY} \
+          --build-arg GSTREAMER_CHECKOUT=${GSTREAMER_CHECKOUT} \
+          --build-arg BASE_IMAGE=${BASE_IMAGE} \
+          --target dev-with-source \
+          --no-cache-filter dev-with-source \
+          -f Dockerfile \
+          .
+        docker push ${IMAGE_ID}:${VERSION}-dev-with-source
+        docker rmi ${IMAGE_ID}:${VERSION}-dev-with-source
         
-        BUILD_DEV=1 ./build-release.sh
-        BUILD_DEV_WITH_SOURCE=1 ./build-release.sh
-        docker tag streamstorage/gstreamer:$VERSION-dev $IMAGE_ID:$VERSION-dev
-        docker push $IMAGE_ID:$VERSION-dev
-        docker tag streamstorage/gstreamer:$VERSION-dev-with-source $IMAGE_ID:$VERSION-dev-with-source
-        docker push $IMAGE_ID:$VERSION-dev-with-source
+        docker buildx build \
+          -t ${IMAGE_ID}:${VERSION}-prod \
+          --build-arg GSTREAMER_REPOSITORY=${GSTREAMER_REPOSITORY} \
+          --build-arg GSTREAMER_CHECKOUT=${GSTREAMER_CHECKOUT} \
+          --build-arg BASE_IMAGE=${BASE_IMAGE} \
+          --target prod \
+          --no-cache-filter prod, prod-compile \
+          -f Dockerfile \
+          .
+        docker push ${IMAGE_ID}:${VERSION}-prod
+        docker rmi ${IMAGE_ID}:${VERSION}-prod
 
-        sudo docker system prune -af --volumes || true
-
-        BUILD_PROD=1 ./build-release.sh
-        docker tag streamstorage/gstreamer:$VERSION-prod $IMAGE_ID:$VERSION-prod
-        docker push $IMAGE_ID:$VERSION-prod
-
-        BUILD_PROD_DBG=1 ./build-release.sh
-        docker tag streamstorage/gstreamer:$VERSION-prod-dbg $IMAGE_ID:$VERSION-prod-dbg
-        docker push $IMAGE_ID:$VERSION-prod-dbg
+        docker buildx build \
+          -t ${IMAGE_ID}:${VERSION}-prod-dbg \
+          --build-arg GSTREAMER_REPOSITORY=${GSTREAMER_REPOSITORY} \
+          --build-arg GSTREAMER_CHECKOUT=${GSTREAMER_CHECKOUT} \
+          --build-arg BASE_IMAGE=${BASE_IMAGE} \
+          --target prod-dbg \
+          --no-cache-filter prod-dbg, prod-compile-dbg \
+          -f Dockerfile \
+          .
+        docker push ${IMAGE_ID}:${VERSION}-prod-dbg
       env:
         GSTREAMER_CHECKOUT: ${{ env.GSTREAMER_CHECKOUT }}
         UBUNTU_VERSION: ${{ env.UBUNTU_VERSION }}
