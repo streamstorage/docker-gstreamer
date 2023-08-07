@@ -6,7 +6,6 @@ The following components are included:
 
 - GStreamer
 - libnice
-- gst-plugin-pravega
 - gst-plugins-base
 - gst-plugins-good
 - gst-plugins-bad
