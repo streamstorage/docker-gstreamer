@@ -20,11 +20,11 @@ Ubuntu: 22.04
 
 GStreamer: 1.22.5
 
-It's available here: https://github.com/orgs/streamstorage/packages/container/package/gstreamer
+The pre-built images are available here: https://github.com/orgs/streamstorage/packages/container/package/gstreamer
 
 # Image Types
 
-There are 2 kinds of images that are built.
+There are 4 kinds of images that are built.
 
 - streamstorage/gstreamer:22.04-1.22.5-dev - includes unoptimized build with debug symbols
 - streamstorage/gstreamer:22.04-1.22.5-dev-with-source - includes unoptimized build with debug symbols and source code it was built with
