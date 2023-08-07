@@ -1,0 +1,10 @@
+#!/bin/bash
+set -ex
+
+## In September 2021 all of the main GStreamer modules were merged into a single code repository,
+## the GStreamer mono repo which lives in the main GStreamer git repository,
+## and this is where all GStreamer development happens nowadays for GStreamer version 1.19/1.20 and later.
+git clone --no-checkout "$GSTREAMER_REPOSITORY"
+pushd gstreamer
+git checkout "$GSTREAMER_CHECKOUT"
+popd
