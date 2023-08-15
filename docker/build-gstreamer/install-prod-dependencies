@@ -10,6 +10,7 @@ apt-get install -y --no-install-recommends \
     libgl1 \
     libpciaccess0 \
     libpython3.10 \
+    libsrtp2-1 \
     libssl3 \
     libwayland-cursor0 \
     libx11-xcb1 \
