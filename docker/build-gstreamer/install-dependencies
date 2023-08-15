@@ -17,6 +17,7 @@ apt-get install -y --no-install-recommends \
     libpciaccess-dev \
     libpython3.10-dev \
     libsodium-dev \
+    libsrtp2-dev \
     libssl-dev \
     libx11-xcb-dev \
     make \
