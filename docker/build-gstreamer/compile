@@ -8,7 +8,7 @@ MESON_OPTS="-Dprefix=/usr -Dlibdir=/usr/lib -Dgpl=enabled -Dlibnice=enabled -Drs
     -Dbase=enabled -Dgood=enabled -Dugly=enabled -Dbad=enabled -Dlibav=enabled -Drtsp_server=enabled \
     -Dges=disabled -Dgst-examples=disabled -Dtls=disabled \
     -Ddevtools=disabled -Dtests=disabled -Dexamples=disabled -Ddoc=disabled -Dorc=disabled \
-    -Dgst-plugins-ugly:x264=enabled -Dgst-plugins-base:pango=enabled \
+    -Dgst-plugins-ugly:x264=enabled -Dgst-plugins-bad:x265=enabled -Dgst-plugins-base:pango=enabled \
     -Dlibnice:gupnp=disabled -Dgst-plugins-rs:fmp4=enabled -Dgst-plugins-base:gl=enabled \
     -Dgst-plugins-rs:fallbackswitch=disabled -Dgst-plugins-rs:livesync=disabled -Dgst-plugins-rs:togglerecord=disabled"
 

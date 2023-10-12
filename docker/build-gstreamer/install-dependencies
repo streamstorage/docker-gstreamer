@@ -20,6 +20,7 @@ apt-get install -y --no-install-recommends \
     libsrtp2-dev \
     libssl-dev \
     libx11-xcb-dev \
+    libx265-dev \
     make \
     nasm \
     pkg-config \
