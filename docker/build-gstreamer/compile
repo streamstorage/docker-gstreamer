@@ -4,13 +4,12 @@ set -ex
 pushd gstreamer
 
 # TODO: Hack: `-D gupnp=disabled` is for libnice, because libgupnp-igd causes memory leaks
-MESON_OPTS="-Dprefix=/usr -Dlibdir=/usr/lib -Dgpl=enabled -Dlibnice=enabled -Drs=enabled -Dpython=enabled\
+MESON_OPTS="-Dprefix=/usr -Dlibdir=/usr/lib -Dgpl=enabled -Dlibnice=enabled -Drs=disabled -Dpython=enabled\
     -Dbase=enabled -Dgood=enabled -Dugly=enabled -Dbad=enabled -Dlibav=enabled -Drtsp_server=enabled \
     -Dges=disabled -Dgst-examples=disabled -Dtls=disabled \
     -Ddevtools=disabled -Dtests=disabled -Dexamples=disabled -Ddoc=disabled -Dorc=disabled \
     -Dgst-plugins-ugly:x264=enabled -Dgst-plugins-bad:x265=enabled -Dgst-plugins-base:pango=enabled \
-    -Dlibnice:gupnp=disabled -Dgst-plugins-rs:fmp4=enabled -Dgst-plugins-base:gl=enabled \
-    -Dgst-plugins-rs:fallbackswitch=disabled -Dgst-plugins-rs:livesync=disabled -Dgst-plugins-rs:togglerecord=disabled"
+    -Dlibnice:gupnp=disabled -Dgst-plugins-base:gl=enabled"
 
 # https://mesonbuild.com/Builtin-options.html#build-type-options
 if [[ $DEBUG == 'true' ]]; then
@@ -26,6 +25,29 @@ fi
 # This is needed for other plugins to be built properly
 ninja -C build install
 # This is where we'll grab build artifacts from
+DESTDIR=/compiled-binaries ninja -C build install
+
+popd
+
+
+pushd gst-plugins-rs
+
+MESON_OPTS="-Dprefix=/usr -Dlibdir=/usr/lib \
+    -Dwebrtc=enabled -Dfmp4=enabled \
+    -Dfallbackswitch=disabled -Dlivesync=disabled -Dtogglerecord=disabled \
+    -Dtests=disabled -Dexamples=disabled -Ddoc=disabled"
+
+if [[ $DEBUG == 'true' ]]; then
+    if [[ $OPTIMIZATIONS == 'true' ]]; then
+        meson setup build $MESON_OPTS -D debug=true -D optimization=2
+    else
+        meson setup build $MESON_OPTS -D debug=true
+    fi
+else
+    meson setup build $MESON_OPTS -D debug=false -D optimization=3 -D b_lto=true
+fi
+
+ninja -C build install
 DESTDIR=/compiled-binaries ninja -C build install
 
 popd

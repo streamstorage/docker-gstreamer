@@ -8,3 +8,8 @@ git clone --no-checkout "$GSTREAMER_REPOSITORY"
 pushd gstreamer
 git checkout "$GSTREAMER_CHECKOUT"
 popd
+
+git clone --no-checkout "$GST_PLUGINS_RS_REPOSITORY"
+pushd gst-plugins-rs
+git checkout "$GST_PLUGINS_RS_CHECKOUT"
+popd

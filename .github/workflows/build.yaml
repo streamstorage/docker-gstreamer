@@ -67,9 +67,11 @@ jobs:
         VERSION=$(echo "${{ github.ref_name }}" | sed -e 's/^v//')
         UBUNTU_VERSION=$(echo $VERSION | cut -f1 -d-)
         GSTREAMER_CHECKOUT=$(echo $VERSION | cut -f2 -d-)
+        GST_PLUGINS_RS_CHECKOUT=$(echo $VERSION | cut -f3 -d-)
         echo "VERSION=$VERSION" >> $GITHUB_ENV
         echo "UBUNTU_VERSION=$UBUNTU_VERSION" >> $GITHUB_ENV
         echo "GSTREAMER_CHECKOUT=$GSTREAMER_CHECKOUT" >> $GITHUB_ENV
+        echo "GST_PLUGINS_RS_CHECKOUT=$GST_PLUGINS_RS_CHECKOUT" >> $GITHUB_ENV
     
     - name: Log in to registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
@@ -77,6 +79,7 @@ jobs:
     - name: Build and publish images
       run: |
         echo "GSTREAMER_CHECKOUT=$GSTREAMER_CHECKOUT"
+        echo "GST_PLUGINS_RS_CHECKOUT=$GST_PLUGINS_RS_CHECKOUT"
         echo "UBUNTU_VERSION=$UBUNTU_VERSION"
         echo "VERSION=$VERSION"
 
@@ -103,5 +106,6 @@ jobs:
         docker push $IMAGE_ID:$VERSION-prod-dbg
       env:
         GSTREAMER_CHECKOUT: ${{ env.GSTREAMER_CHECKOUT }}
+        GST_PLUGINS_RS_CHECKOUT: ${{ env.GST_PLUGINS_RS_CHECKOUT }}
         UBUNTU_VERSION: ${{ env.UBUNTU_VERSION }}
         VERSION: ${{ env.VERSION }}

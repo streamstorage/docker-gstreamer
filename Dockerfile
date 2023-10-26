@@ -30,6 +30,9 @@ FROM dev-dependencies as dev-source-code
 ARG GSTREAMER_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gstreamer.git
 ARG GSTREAMER_CHECKOUT=6e5ca29e8f445f61e292a88cbba8282a629004a6
 
+ARG GST_PLUGINS_RS_REPOSITORY=https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git
+ARG GST_PLUGINS_RS_CHECKOUT=d27a04e0675b3ce9b2f5b885dd3a5a0b04ee7b47
+
 COPY docker/build-gstreamer/download /
 RUN ["/download"]
 
