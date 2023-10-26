@@ -21,6 +21,13 @@ GStreamer: 1.22.6
 
 The pre-built images are available here: https://github.com/orgs/streamstorage/packages/container/package/gstreamer
 
+# Build Matrix
+
+The [main](https://github.com/streamstorage/docker-gstreamer) branch will build all the above components from the [GStreamer mono repo](https://gitlab.freedesktop.org/gstreamer/gstreamer).
+
+The [gst-plugins-rs](https://github.com/streamstorage/docker-gstreamer/tree/gst-plugins-rs) branch will build the same except for gst-plugins-rs which would be built separately from [gst-plugins-rs repo](https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git) due to 
+https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/issues/451.
+
 # Image Types
 
 There are 4 kinds of images that are built.
